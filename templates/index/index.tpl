@@ -1,5 +1,5 @@
-{include file='header.tpl'}
+{include file='header.tpl' section='home'}
 
-Web site home!!!
+Web site home
 
 {include file='footer.tpl'}

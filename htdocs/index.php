@@ -22,10 +22,16 @@
     Zend_Registry::set('db', $db);
 
 
+    // setup application authentication
+    $auth = Zend_Auth::getInstance();
+    $auth->setStorage(new Zend_Auth_Storage_Session());
+
+
     // handle the user request
     $controller = Zend_Controller_Front::getInstance();
     $controller->setControllerDirectory($config->paths->base .
                                         '/include/Controllers');
+    $controller->registerPlugin(new CustomControllerAclManager($auth));
 
     // setup the view renderer
     $vr = new Zend_Controller_Action_Helper_ViewRenderer();

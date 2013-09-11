@@ -4,10 +4,5 @@
         public function indexAction()
         {
         }
-
-        public function queryAction()
-        {
-            echo 'hmm';
-        }
     }
 ?>
