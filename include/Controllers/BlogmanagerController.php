@@ -13,7 +13,16 @@
 
         public function indexAction()
         {
-
+            #get a list of entries
+            $bl = new DatabaseObject_BlogList($this->db, $this->identity->user_id);
+            $entries = $bl->listBlogEntries();
+            $post_ids = array();
+            foreach ($entries as $entry)
+            {
+                $post_ids[] = intval($entry['post_id']);
+            }
+            $this->view->assign('post_ids', $post_ids);
+            #echo sizeof($post_ids);
         }
 
         public function editAction()
