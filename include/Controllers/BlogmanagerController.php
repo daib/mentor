@@ -16,13 +16,14 @@
             #get a list of entries
             $bl = new DatabaseObject_BlogList($this->db, $this->identity->user_id);
             $entries = $bl->listBlogEntries();
-            $post_ids = array();
+            $items = array();
             foreach ($entries as $entry)
             {
-                $post_ids[] = intval($entry['post_id']);
+                $url = $this->getUrl('preview') . '?id=' . $entry['post_id'];
+                $title = $entry['url'];
+                $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
             }
-            $this->view->assign('post_ids', $post_ids);
-            #echo sizeof($post_ids);
+            $this->view->assign('items', $items);
         }
 
         public function editAction()

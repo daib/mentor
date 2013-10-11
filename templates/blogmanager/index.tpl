@@ -6,8 +6,8 @@
     </div>
 </form>
 <ul>
-    {foreach from=$post_ids item=entry}
-       <li>{$entry}</li>
+    {foreach from=$items item=item}
+       <li><a href={$item.url}>{$item.title}</a></li>
     {/foreach}
 </ul>
 {include file='footer.tpl'}
