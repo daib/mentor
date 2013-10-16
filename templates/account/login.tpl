@@ -21,7 +21,7 @@
         </div>
 
         <div class="submit">
-            <input type="submit" value="Login" />
+            <input type="submit" value="Sign in" />
         </div>
 
         <div>

@@ -47,7 +47,7 @@
      * Style the main page areas
      */
     #header {
-        background    : url(../images/logo.gif) no-repeat 5px center #f22;
+        /*background    : url(../images/logo.gif) no-repeat 5px center #f22;*/
         height        : 45px;
         border-bottom : 1px solid #922;
     }

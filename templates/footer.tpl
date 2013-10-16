@@ -41,7 +41,12 @@
         </div>
 
         <div id="footer">
-            Practical PHP Web 2.0 Applications, by Quentin Zervaas.
+            Mentor network!
         </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../assets/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     </body>
 </html>
