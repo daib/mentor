@@ -13,17 +13,20 @@
 
         public function indexAction()
         {
-            #get a list of entries
-            $bl = new DatabaseObject_BlogList($this->db, $this->identity->user_id);
-            $entries = $bl->listBlogEntries();
-            $items = array();
-            foreach ($entries as $entry)
-            {
-                $url = $this->getUrl('preview') . '?id=' . $entry['post_id'];
-                $title = $entry['url'];
-                $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+            $uid = (int) $this->getRequest()->getQuery('uid');
+            
+            if($uid ==  null || $uid == $this->identity->user_id) {
+                #get a list of entries
+                $bl = new DatabaseObject_BlogList($this->db, $this->identity->user_id);
+                $entries = $bl->listBlogEntries();
+                $items = array();
+                foreach ($entries as $entry) {
+                    $url = $this->getUrl('preview') . '?id=' . $entry['post_id'];
+                    $title = $entry['url'];
+                    $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+                }
+                $this->view->assign('items', $items);
             }
-            $this->view->assign('items', $items);
         }
 
         public function editAction()
@@ -58,14 +61,20 @@
         public function previewAction()
         {
             $post_id = (int) $this->getRequest()->getQuery('id');
+            $uid = (int) $this->getRequest()->getQuery('uid');
+            
+            if($uid ==  null || $uid ==$this->identity->user_id) {
+                $post = new DatabaseObject_BlogPost($this->db);
+                if (!$post->loadForUser($this->identity->user_id, $post_id))
+                    $this->_redirect($this->getUrl());
 
-            $post = new DatabaseObject_BlogPost($this->db);
-            if (!$post->loadForUser($this->identity->user_id, $post_id))
-                $this->_redirect($this->getUrl());
+                $this->breadcrumbs->addStep('Preview Post: ' . $post->profile->title);
 
-            $this->breadcrumbs->addStep('Preview Post: ' . $post->profile->title);
-
-            $this->view->post = $post;
+                $this->view->post = $post;
+            }
+            else {
+                echo "Access denied";
+            }
         }
 
         public function setstatusAction()
