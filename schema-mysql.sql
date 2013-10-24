@@ -41,3 +41,15 @@ create table blog_posts_profile (
     primary key (post_id, profile_key),
     foreign key (post_id) references blog_posts (post_id)
 ) type = InnoDB;
+
+create table relations (
+    from_user       bigint unsigned     not null,
+    to_user         bigint unsigned     not null,
+    status          char not null,
+    ts_requested    datetime            not null,
+    ts_response     datetime,
+
+    primary key (from_user, to_user),
+    foreign key (from_user) references users (user_id),
+    foreign key (to_user) references users (user_id)
+) type = InnoDB;

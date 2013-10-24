@@ -11,6 +11,11 @@
         {
             // nothing to do here, index.tpl will be displayed
         }
+        
+        public function friendAction()
+        {
+
+        }
 
         public function registerAction()
         {

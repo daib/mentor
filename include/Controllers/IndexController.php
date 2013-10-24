@@ -20,6 +20,7 @@
                 $bl = new DatabaseObject_BlogList($this->db, $uid);
                 $full_name = $bl->getUserFirstName(). ' ' . $bl->getUserLastName();
                 $this->view->assign('full_name', $full_name);
+                $this->view->assign('uid', $uid);
             }
         }
     }
