@@ -91,6 +91,9 @@
             $this->_id = (int) $row[$this->_idField];
         }
 
+        protected function getWhereClause() {
+            return sprintf('%s = %d', $this->_idField, $this->getId());
+        }
 
         public function save($useTransactions = true)
         {
@@ -137,7 +140,7 @@
             if (count($row) > 0) {
                 // perform insert/update
                 if ($update) {
-                    $this->_db->update($this->_table, $row, sprintf('%s = %d', $this->_idField, $this->getId()));
+                    $this->_db->update($this->_table, $row, $this->getWhereClause());
                 }
                 else {
                     $this->_db->insert($this->_table, $row);
@@ -175,7 +178,7 @@
             $commit = $this->preDelete();
 
             if ($commit) {
-                $this->_db->delete($this->_table, sprintf('%s = %d', $this->_idField, $this->getId()));
+                $this->_db->delete($this->_table, $this->getWhereClause());
             }
             else {
                 if ($useTransactions)

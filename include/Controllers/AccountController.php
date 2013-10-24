@@ -5,6 +5,7 @@
         {
             parent::init();
             $this->breadcrumbs->addStep('Account', $this->getUrl(null, 'account'));
+            $this->identity = Zend_Auth::getInstance()->getIdentity();
         }
 
         public function indexAction()
@@ -14,8 +15,17 @@
         
         public function friendAction()
         {
+            $to_id = (int) $this->getRequest()->getPost('uid');
+            $from_id = $this->identity->user_id;
 
+            $relation = new DatabaseObject_Relation($this->db);
+            $status = $relation->checkStatus($from_id, $to_id);
+
+            if($status == 'nonexisted') {
+                $relation->makeRequest($from_id, $to_id);
+            }
         }
+
 
         public function registerAction()
         {
