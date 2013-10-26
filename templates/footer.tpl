@@ -1,11 +1,11 @@
             </div>
         </div>
 
-        <div id="left-container" class="column">
+        <!--div id="left-container" class="column">
             <div class="box">
                 Left column placeholder
             </div>
-        </div>
+        </div-->
 
         <div id="right-container" class="column">
             {if $messages|@count > 0}

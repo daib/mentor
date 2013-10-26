@@ -19,7 +19,7 @@
 
         public function checkStatus($from_id, $to_id) {
             if($this->load($from_id, 'from_user', $to_id, 'to_user')) {
-                if($this->_properties['ts_response']['r'] == 'f') {
+                if($this->_properties['status']['value'] == 'f') {
                     return 'friended';
                 } else {
                     return 'requested';

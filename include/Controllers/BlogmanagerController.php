@@ -14,18 +14,48 @@
         public function indexAction()
         {
             $uid = (int) $this->getRequest()->getQuery('uid');
-            
-            if($uid ==  null || $uid == $this->identity->user_id) {
-                #get a list of entries
-                $bl = new DatabaseObject_BlogList($this->db, $this->identity->user_id);
-                $entries = $bl->listBlogEntries();
-                $items = array();
-                foreach ($entries as $entry) {
-                    $url = $this->getUrl('preview') . '?id=' . $entry['post_id'];
-                    $title = $entry['url'];
-                    $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+           
+            if($this->identity != null) { //logged in
+                if($uid == null || $uid == $this->identity->user_id) {
+                    #get a list of entries
+                    $uid = $this->identity->user_id;
+                    $bl = new DatabaseObject_BlogList($this->db, $uid);
+                    $entries = $bl->listBlogEntries();
+                    $items = array();
+
+                    foreach ($entries as $entry) {
+                        $url = $this->getUrl('preview') . '?id=' . $entry['post_id'] . '&uid=' . $uid;
+                        $title = $entry['url'];
+                        $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+                    }
+
+                    $this->view->assign('items', $items);
+                    $this->view->assign('isowner', true);
                 }
-                $this->view->assign('items', $items);
+
+                if($uid != null) {
+                    $from_id = $uid;
+                    $to_id = $this->identity->user_id; 
+
+                    $relation = new DatabaseObject_Relation($this->db);
+                    $status = $relation->checkStatus($from_id, $to_id);
+                    echo $status;
+
+                    if($status == 'requested') {
+                        $bl = new DatabaseObject_BlogList($this->db, $uid);
+                        $entries = $bl->listBlogEntries();
+                        $items = array();
+
+                        foreach ($entries as $entry) {
+                            $url = $this->getUrl('preview') . '?id=' . $entry['post_id'] . '&uid=' . $uid;
+                            $title = $entry['url'];
+                            $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+                        }
+                        $this->view->assign('items', $items);
+                    }
+
+                    $this->view->assign('isowner', false);
+                }
             }
         }
 

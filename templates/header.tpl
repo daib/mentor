@@ -105,6 +105,7 @@
                         <input type="password" name="password" placeholder="Password" class="form-control">
                     </div>
 
+                    <input type="hidden" name="redirect" value="/">
                     <button type="submit" class="btn btn-success">Sign in</button>  
                 </form>
 
