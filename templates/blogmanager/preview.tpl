@@ -2,6 +2,14 @@
 
 <script type="text/javascript" src="/js/blogPreview.js"></script>
 
+<div class="preview-date">
+    {$post->ts_created|date_format:'%x %X'}
+</div>
+
+<div class="preview-content">
+    {$post->profile->content}
+</div>
+
 <form method="post"
       action="{geturl controller='blogmanager' action='setstatus'}"
       id="status-form">
@@ -39,12 +47,5 @@
 
 </form>
 
-<div class="preview-date">
-    {$post->ts_created|date_format:'%x %X'}
-</div>
-
-<div class="preview-content">
-    {$post->profile->content}
-</div>
 
 {include file='footer.tpl'}

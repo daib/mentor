@@ -48,7 +48,7 @@
 
                 {if $authenticated}
                     <li{if $section == 'account'} class="active"{/if}>
-                        <a href="{geturl controller='account'}">Your Account</a>
+                        <a href="{geturl controller='account'}">Account</a>
                     </li>
 
                     <li{if $section == 'blogmanager'} class="active"{/if}>

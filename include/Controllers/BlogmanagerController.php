@@ -39,7 +39,6 @@
 
                     $relation = new DatabaseObject_Relation($this->db);
                     $status = $relation->checkStatus($from_id, $to_id);
-                    echo $status;
 
                     if($status == 'requested') {
                         $bl = new DatabaseObject_BlogList($this->db, $uid);
