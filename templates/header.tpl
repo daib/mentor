@@ -79,10 +79,10 @@
           </ul>
 
         {if $authenticated}
-             <form class="navbar-form navbar-right" method="post" action="{geturl controller='account' action='logout'}">
-                <div class="form-group">
-                    <div class="dropdown-toggle" data-toggle="dropdown">{$identity->first_name|escape} {$identity->last_name|escape}</div>
-                     <ul class="dropdown-menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{$identity->first_name|escape} {$identity->last_name|escape}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
@@ -91,11 +91,17 @@
                         <li><a href="#">Separated link</a></li>
                         <li><a href="#">One more separated link</a></li>
                     </ul>
-                </div>
+                </li>
 
-                <button type="submit" class="btn btn-success">Sign out</button>  
-                <!--a href="{geturl controller='account' action='details'}">Update details</a-->.
-            </form>
+                <li>
+                     <form class="navbar-form" method="post" action="{geturl controller='account' action='logout'}">
+                        <button type="submit" class="btn btn-success">Sign out</button>  
+                        <!--a href="{geturl controller='account' action='details'}">Update details</a-->.
+                    </form>
+                </li>
+
+            </ul>
+
         {else}
                 <form class="navbar-form navbar-right" method="post" action="{geturl controller='account' action='login'}">
                     <div class="form-group">
