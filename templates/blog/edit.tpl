@@ -1,4 +1,4 @@
-{include file='header.tpl' section='blogmanager'}
+{include file='header.tpl' section='blog'}
 
 <form method="post" action="{geturl action='edit'}?id={$fp->post->getId()}">
 

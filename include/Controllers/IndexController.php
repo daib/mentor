@@ -5,8 +5,8 @@
         {
             parent::init();
             $this->breadcrumbs->addStep('Account', $this->getUrl(null, 'account'));
-            $this->breadcrumbs->addStep('Blog Manager',
-                                        $this->getUrl(null, 'blogmanager'));
+            $this->breadcrumbs->addStep('Blog',
+                                        $this->getUrl(null, 'blog'));
 
             $this->identity = Zend_Auth::getInstance()->getIdentity();
         }

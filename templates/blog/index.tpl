@@ -1,4 +1,4 @@
-{include file='header.tpl' section='blogmanager'}
+{include file='header.tpl' section='blog'}
 
 {if $isowner}
 <form method="get" action="{geturl action='edit'}">

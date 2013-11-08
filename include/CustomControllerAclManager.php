@@ -20,14 +20,14 @@
 
             // add the resources we want to have control over
             $this->acl->add(new Zend_Acl_Resource('account'));
-            $this->acl->add(new Zend_Acl_Resource('blogmanager'));
+            $this->acl->add(new Zend_Acl_Resource('blog'));
             $this->acl->add(new Zend_Acl_Resource('admin'));
 
             // allow access to everything for all users by default
             // except for the account management and administration areas
             $this->acl->allow();
             $this->acl->deny(null, 'account');
-            $this->acl->deny(null, 'blogmanager');
+            $this->acl->deny(null, 'blog');
             $this->acl->deny(null, 'admin');
 
             // add an exception so guests can log in or register
@@ -39,7 +39,7 @@
 
             // allow members access to the account management area
             $this->acl->allow('member', 'account');
-            $this->acl->allow('member', 'blogmanager');
+            $this->acl->allow('member', 'blog');
 
             // allows administrators access to the admin area
             $this->acl->allow('administrator', 'admin');

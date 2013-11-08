@@ -51,8 +51,8 @@
                         <a href="{geturl controller='account'}">Account</a>
                     </li>
 
-                    <li{if $section == 'blogmanager'} class="active"{/if}>
-                      <a href="{geturl controller='blogmanager'}">Blog</a>
+                    <li{if $section == 'blog'} class="active"{/if}>
+                      <a href="{geturl controller='blog'}">Blog</a>
                     </li>
 
                 {else}

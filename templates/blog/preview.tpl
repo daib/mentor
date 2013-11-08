@@ -1,4 +1,4 @@
-{include file='header.tpl' section='blogmanager'}
+{include file='header.tpl' section='blog'}
 
 <script type="text/javascript" src="/js/blogPreview.js"></script>
 
@@ -11,7 +11,7 @@
 </div>
 
 <form method="post"
-      action="{geturl controller='blogmanager' action='setstatus'}"
+      action="{geturl controller='blog' action='setstatus'}"
       id="status-form">
 
 <div class="preview-status">

@@ -3,8 +3,8 @@
 Welcome {$identity->first_name}.
 
 <ul>
-    <li><a href="{geturl controller='blogmanager'}">View all blog posts</a></li>
-    <li><a href="{geturl controller='blogmanager'
+    <li><a href="{geturl controller='blog'}">View all blog posts</a></li>
+    <li><a href="{geturl controller='blog'
                          action='edit'}">Post new blog entry</a></li>
 </ul>
 
