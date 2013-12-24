@@ -14,7 +14,7 @@
 
         public function loadForUserAndTopic($user_id, $topic_post_id)
         {
-            $post_id = (int) $post_id;
+            $post_id = (int) $topic_post_id;
             $user_id = (int) $user_id;
 
             if ($post_id <= 0 || $user_id <= 0)
@@ -28,7 +28,8 @@
                 $topic_post_id
             );
 
-            return $this->_load($query);
+            $result = $this->_db->query($query);
+            return $result->fetchAll();
         }
 
         public function insertComment($user_id, $topic_post_id, $parent_post_id, $value) {

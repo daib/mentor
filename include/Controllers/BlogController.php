@@ -94,12 +94,17 @@
             
             if($uid ==  null || $uid ==$this->identity->user_id) {
                 $post = new DatabaseObject_BlogPost($this->db);
-                if (!$post->loadForUser($this->identity->user_id, $post_id))
-                    $this->_redirect($this->getUrl());
+                $load_blog = $post->loadForUser($this->identity->user_id, $post_id);
+                $cp = new DatabaseObject_CommentPost($this->db);
+                $comments = $cp->loadForUserAndTopic($uid, $post_id);
 
-                $this->breadcrumbs->addStep('Preview Post: ' . $post->profile->title);
+                if(!$load_blog || !$comments) {
+                    $this->_redirect($this->getUrl());
+                }
+                $this->breadcrumbs->addStep($post->profile->title);
 
                 $this->view->post = $post;
+                $this->view->comments = $comments;
             }
             else {
                 echo "Access denied";

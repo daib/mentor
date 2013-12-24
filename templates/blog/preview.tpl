@@ -8,16 +8,34 @@
 
 <div class="preview-content">
     {$post->profile->content}
-</div>
-
 <div id="comments-box-group">
+   {foreach from=$comments item=v}
+        <div id={$v.post_id} class="container">
+            <div class="row">
+                <div class="span4 well" style="padding-bottom:0">
+                    {$v.value} <br/> by {$v.user_id} at {$v.ts_created} 
+                </div>
+            </div>
+        </div>
+   {/foreach}
+</div>
 </div>
 
-Comments:<br/>
-<textarea name="comment" id="comment">
-</textarea><br />
-<button type="submit" id="commentsubmit-btn" class="btn btn-default">Submit</button>
-<input type="hidden" value="{$post->getId()}" id="post_id"/>
+
+<div class="container">
+    <div class="row">
+        <div class="span4 well" style="padding-bottom:0">
+            <form accept-charset="UTF-8" action="" method="POST">
+                <textarea class="span4" id="comment" name="comment" placeholder="Type your comment here" rows="5">
+                </textarea>
+                <button id="commentsubmit-btn" class="btn btn-info">Comment</button>
+                <input type="hidden" value="{$post->getId()}" id="post_id"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 {literal}
 <script>
 $(document).ready(function(){
@@ -26,7 +44,8 @@ $(document).ready(function(){
             .done(function( data ) {
                 var result = $.parseJSON(data);
                 if(result['comment_id'] > 0) {
-                    $("#comments-box-group").append('<div id=' + result['comment_id'] + '><p>' + $('#comment').val() + '<br/> Created at ' + result['ts'] + "</p></div>");
+                    $("#comments-box-group").append('<div id=' + result['comment_id'] + 'class=\"container\"><div class=\"row\"><div class=\"span4 well\" style=\"padding-bottom:0\">'
+                        + $('#comment').val() + '<br/> by '  + 'at ' + result['ts'] + '</div></div></div>');
                 }
             });
         });
