@@ -36,6 +36,13 @@
                 $this->view->assign('full_name', $full_name);
                 $this->view->assign('uid', $uid);
             }
+$app_key = '49e26cb8e9dde3dfc009';
+$app_secret = 'YOUR_APP_SECRET';
+$app_id = 'YOUR_APP_ID';
+
+$pusher = new Pusher($app_key, $app_secret, $app_id);
+$data = array('message' => 'This is an HTML5 Realtime Push Notification!');
+$pusher->trigger('my_notifications', 'my-event', $data);
         }
     }
 ?>

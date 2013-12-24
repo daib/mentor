@@ -106,6 +106,20 @@
             }
         }
 
+        public function commentAction() {
+            $request = $this->getRequest();
+            $post_id = (int) $request->getPost('post_id');
+            $comment = $request->getPost('comment');
+
+            $cp = new DatabaseObject_CommentPost($this->db);
+            $cp->insertComment($this->identity->user_id, $post_id, null, $comment); 
+            $comment_id = -1;
+            if($cp->getId() > 0) 
+                $comment_id = $cp->getId();
+            $arr = array('comment_id' => $comment_id, 'ts' => $cp->__get('ts_created'));
+            echo json_encode($arr); 
+        }
+
         public function setstatusAction()
         {
             $request = $this->getRequest();

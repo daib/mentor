@@ -1,5 +1,6 @@
 <?php
     require_once('Zend/Loader.php');
+    require_once('Pusher.php');
     Zend_Loader::registerAutoload();
 
     // load the application configuration

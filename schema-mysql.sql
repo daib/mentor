@@ -53,3 +53,24 @@ create table relations (
     foreign key (from_user) references users (user_id),
     foreign key (to_user) references users (user_id)
 ) type = InnoDB;
+
+create table comment_posts (
+    post_id         serial          not null auto_increment,
+    user_id         bigint unsigned not null,
+    ts_created      datetime        not null,
+    value           text            not null,
+    parent_post_id  bigint unsigned, 
+    topic_post_id   bigint unsigned not null, 
+
+    primary key (post_id),
+    foreign key (user_id) references users (user_id),
+    foreign key (parent_post_id) references comment_posts (post_id),
+    foreign key (topic_post_id) references blog_posts (post_id)
+) type = InnoDB;
+
+create table tag {
+    tag_id bigint unsigned not null,
+    name varchar(255)    not null
+} type = InnoDB;
+
+
