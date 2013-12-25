@@ -32,11 +32,31 @@
             }
         }
 
-        public function listBlogEntries()
+        public function listBlogEntries($limit = 20)
         {
-            $query = sprintf('select * from %s where user_id = %s',
+            $query = sprintf('select * from %s where user_id = %s order by ts_created desc limit %d',
                              $this->_table,
-                             $this->_user_id);
+                             $this->_user_id,
+                             $limit);
+
+            $result = $this->_db->query($query);
+            return $result->fetchAll();
+        }
+
+        public function listBlogEntriesFromUsers($user_ids, $limit = 20)
+        {
+            $users = '(';
+            foreach($user_ids  as $user_id) {
+                $users = $users . "$user_id,";
+            }
+
+            $users = rtrim($users, ",");
+            $users = $users . ")";
+
+            $query = sprintf('select * from %s where user_id in %s order by ts_created desc limit %d',
+                             $this->_table,
+                             $users,
+                            $limit);
 
             $result = $this->_db->query($query);
             return $result->fetchAll();

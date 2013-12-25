@@ -15,8 +15,6 @@
 
         <script src="../../assets/js/jquery.js"></script>
         <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/pusher.min.js"></script>
-        <script src="/js/PusherNotifier.js"></script>
 
     <!-- Bootstrap core CSS -->
         <link href="/css/bootstrap.min.css" rel="stylesheet">

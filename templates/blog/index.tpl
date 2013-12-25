@@ -38,16 +38,18 @@
                             <h3>
                                 <a href={$item.url}>{$item.title}</a>
                             </h3>
+                            <button id="like-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id}><i class="glyphicon glyphicon-time"></i> Created at {$item.ts}</button>
+                            <br/>
                             {$item.content}
 
                         </li>
 
-                        <button id="like-btn" class="btn btn-blog-entry btn-default btn-sm" value={$v.post_id}><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>
-                        <button id="comment-btn" class="btn btn-blog-entry btn-default btn-sm" value={$v.post_id}><i class="glyphicon glyphicon-comment"></i> Comment</button>
-                        <button id="share-btn" class="btn btn-blog-entry btn-default btn-sm" value={$v.post_id} ><i class="glyphicon glyphicon-share"></i> Share</button>
-                        <button id="add-btn" class="btn btn-blog-entry btn-default btn-sm" value={$v.post_id} ><i class="glyphicon glyphicon-user"></i> Add</button>
-                        <button id="edit-btn" class="btn btn-blog-entry btn-default btn-sm" value={$v.post_id} ><i class="glyphicon glyphicon-edit"></i> Edit</button>
-                        <button id="delete-btn" class="btn btn-blog-entry btn-default btn-sm" value={$v.post_id} ><i class="glyphicon glyphicon-remove"></i> Delete</button>
+                        <button id="like-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id}><i class="glyphicon glyphicon-thumbs-up"></i> Like</button>
+                        <button id="comment-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id}><i class="glyphicon glyphicon-comment"></i> Comment</button>
+                        <button id="share-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id} ><i class="glyphicon glyphicon-share"></i> Share</button>
+                        <button id="add-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id} ><i class="glyphicon glyphicon-user"></i> Add</button>
+                        <button id="edit-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id} ><i class="glyphicon glyphicon-edit"></i> Edit</button>
+                        <button id="delete-btn" class="btn btn-blog-entry btn-default btn-sm" value={$item.post_id} ><i class="glyphicon glyphicon-remove"></i> Delete</button>
                        <li class="nav-divider"></li>
                     {/foreach}
                 </ul>

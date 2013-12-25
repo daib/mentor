@@ -36,6 +36,27 @@
             return $this->save(false);
         }
 
+        public function getFriends($user_id) {
+            $user_id = (int) $user_id;
+            if ($user_id <= 0)
+                return null;
+            $query = sprintf(
+                'select from_user from %s where to_user = %d',
+                $this->_table,
+                $user_id
+            );
+
+            $result = $this->_db->query($query);
+            $rows = $result->fetchAll();
+            $friends = array();
+
+            foreach($rows as $row) {
+                array_push($friends, $row['from_user']); 
+            }
+
+            return $friends;
+        }
+
         protected function getWhereClause() {
             return sprintf("%s = %d and %s = %d", $this->_idField, $this->getId(), $this->_idField2, $this->getId2());
         }

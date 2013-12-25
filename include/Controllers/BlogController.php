@@ -29,7 +29,7 @@
                     foreach ($entries as $entry) {
                         $url = $this->getUrl('preview') . '?id=' . $entry['post_id'] . '&uid=' . $uid;
                         $load_blog = $post->loadForUser($this->identity->user_id, $entry['post_id']);
-                        $items[] = array('title' => $post->profile->title, 'url' => $url, 'content' => $post->profile->content); #intval($entry['post_id']);
+                        $items[] = array('title' => $post->profile->title, 'url' => $url, 'content' => $post->profile->content, 'ts' => $entry['ts_created']); #intval($entry['post_id']);
                     }
 
                     $this->view->assign('items', $items);
@@ -51,7 +51,7 @@
                         foreach ($entries as $entry) {
                             $url = $this->getUrl('preview') . '?id=' . $entry['post_id'] . '&uid=' . $uid;
                             $title = $entry['url'];
-                            $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+                            $items[] = array('title' => $title, 'url' => $url, 'ts' => $entry['ts_created']); #intval($entry['post_id']);
                         }
                         $this->view->assign('items', $items);
                     }
@@ -95,23 +95,29 @@
             $post_id = (int) $this->getRequest()->getQuery('id');
             $uid = (int) $this->getRequest()->getQuery('uid');
             
-            if($uid ==  null || $uid ==$this->identity->user_id) {
-                $post = new DatabaseObject_BlogPost($this->db);
-                $load_blog = $post->loadForUser($this->identity->user_id, $post_id);
-                $cp = new DatabaseObject_CommentPost($this->db);
-                $comments = $cp->loadForUserAndTopic($uid, $post_id);
-
-                if(!$load_blog) {
-                    $this->_redirect($this->getUrl());
-                }
-                $this->breadcrumbs->addStep($post->profile->title);
-
-                $this->view->post = $post;
-                $this->view->comments = $comments;
+            if($uid ==  null || $uid == $this->identity->user_id) {
+                $uid = $this->identity->user_id;
             }
             else {
-                echo "Access denied";
+                $relation = new DatabaseObject_Relation($this->db);
+                $status = $relation->checkStatus($uid, $this->identity->user_id);
+                if($status == 'nonexisted') {
+                    return;
+                }
             }
+
+            $post = new DatabaseObject_BlogPost($this->db);
+            $load_blog = $post->loadForUser($uid, $post_id);
+            $cp = new DatabaseObject_CommentPost($this->db);
+            $comments = $cp->loadForUserAndTopic($uid, $post_id);
+
+            if(!$load_blog) {
+                $this->_redirect($this->getUrl());
+            }
+            $this->breadcrumbs->addStep($post->profile->title);
+
+            $this->view->post = $post;
+            $this->view->comments = $comments;
         }
 
         public function commentAction() {
