@@ -19,14 +19,17 @@
                 if($uid == null || $uid == $this->identity->user_id) {
                     #get a list of entries
                     $uid = $this->identity->user_id;
+
+                    $post = new DatabaseObject_BlogPost($this->db);
+
                     $bl = new DatabaseObject_BlogList($this->db, $uid);
                     $entries = $bl->listBlogEntries();
                     $items = array();
 
                     foreach ($entries as $entry) {
                         $url = $this->getUrl('preview') . '?id=' . $entry['post_id'] . '&uid=' . $uid;
-                        $title = $entry['url'];
-                        $items[] = array('title' => $title, 'url' => $url); #intval($entry['post_id']);
+                        $load_blog = $post->loadForUser($this->identity->user_id, $entry['post_id']);
+                        $items[] = array('title' => $post->profile->title, 'url' => $url, 'content' => $post->profile->content); #intval($entry['post_id']);
                     }
 
                     $this->view->assign('items', $items);
@@ -98,7 +101,7 @@
                 $cp = new DatabaseObject_CommentPost($this->db);
                 $comments = $cp->loadForUserAndTopic($uid, $post_id);
 
-                if(!$load_blog || !$comments) {
+                if(!$load_blog) {
                     $this->_redirect($this->getUrl());
                 }
                 $this->breadcrumbs->addStep($post->profile->title);

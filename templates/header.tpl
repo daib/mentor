@@ -19,10 +19,12 @@
         <script src="/js/PusherNotifier.js"></script>
 
     <!-- Bootstrap core CSS -->
-        <link href="/css/bootstrap.css" rel="stylesheet">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
         <link href="/css/jumbotron.css" rel="stylesheet">
+
+        <link href="/css/mentor.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -44,7 +46,7 @@ function() {
 });
 </script>
 {/literal}
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-mentor navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -142,4 +144,6 @@ function() {
                     {breadcrumbs trail=$breadcrumbs->getTrail() separator=' &raquo; '}
                 </div>
 
-                <h1>{$title|escape}</h1>
+                <h1></h1>
+
+

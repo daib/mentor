@@ -6,31 +6,43 @@
     {$post->ts_created|date_format:'%x %X'}
 </div>
 
-<div class="preview-content">
+<div class="container">
     {$post->profile->content}
-<div id="comments-box-group">
-   {foreach from=$comments item=v}
-        <div id={$v.post_id} class="container">
-            <div class="row">
-                <div class="span4 well" style="padding-bottom:0">
-                    {$v.value} <br/> by {$v.user_id} at {$v.ts_created} 
-                </div>
-            </div>
-        </div>
-   {/foreach}
-</div>
-</div>
 
+    <div id="comments-box-group">
+       <div class="col-md-6">
+            <ul class="nav">
+            {foreach from=$comments item=v}
+                    <li value={$v.post_id}> <a href="#"><i class="glyphicon glyphicon-off"></i> {$v.value}</a> 
+                    </li>
+                    <li id="delete-btn" value={$v.post_id}><a href="#"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+                    </li>
+                    <li class="nav-divider"></li>
+            {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div class="container">
-    <div class="row">
-        <div class="span4 well" style="padding-bottom:0">
-            <form accept-charset="UTF-8" action="" method="POST">
-                <textarea class="span4" id="comment" name="comment" placeholder="Type your comment here" rows="5">
-                </textarea>
-                <button id="commentsubmit-btn" class="btn btn-info">Comment</button>
-                <input type="hidden" value="{$post->getId()}" id="post_id"/>
-            </form>
+    <div class="row" style="margin-top:40px;">
+        <div class="col-md-6">
+        <div class="well well-sm">
+            <div class="row" id="post-review-box">
+                <div class="col-md-12">
+                    <form accept-charset="UTF-8" action="" method="post">
+                        <input id="ratings-hidden" name="rating" type="hidden"> 
+                        <textarea class="form-control animated" cols="50" id="comment" name="comment" placeholder="Enter your review here..." rows="5"></textarea>
+        
+                        <div class="text-right">
+                            <button id="commentsubmit-btn" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-comment"></span> Comment</button>
+                            <input type="hidden" value="{$post->getId()}" id="post_id"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+         
         </div>
     </div>
 </div>
@@ -42,11 +54,13 @@ $(document).ready(function(){
     $("#commentsubmit-btn").click(function(){
         $.post("/blog/comment", {"comment":$("#comment").val(), "post_id":$("#post_id").val()})
             .done(function( data ) {
+/*
                 var result = $.parseJSON(data);
                 if(result['comment_id'] > 0) {
                     $("#comments-box-group").append('<div id=' + result['comment_id'] + 'class=\"container\"><div class=\"row\"><div class=\"span4 well\" style=\"padding-bottom:0\">'
                         + $('#comment').val() + '<br/> by '  + 'at ' + result['ts'] + '</div></div></div>');
                 }
+*/
             });
         });
     });

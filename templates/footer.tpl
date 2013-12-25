@@ -5,7 +5,7 @@
             <div class="box">
                 Left column placeholder
             </div>
-        </div-->
+        </div>
 
         <div id="right-container" class="column">
             {if $messages|@count > 0}
@@ -38,11 +38,8 @@
                     <a href="{geturl controller='account' action='register'}">register</a> now.
                 {/if}
             </div>
-        </div>
+        </div-->
 
-        <div id="footer">
-            Mentor network!
-        </div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
