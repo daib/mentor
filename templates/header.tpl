@@ -32,18 +32,6 @@
     <![endif]-->
   </head>
     <body>
-{literal}
-<script>
-$(document).ready(
-function() {
-  var pusher = new Pusher('49e26cb8e9dde3dfc009');
-  var channel = pusher.subscribe('my_notifications');
-    channel.bind('my-event', function(data) {
-        alert('An event was triggered with message: ' + data.message);
-    });
-});
-</script>
-{/literal}
     <div class="navbar navbar-mentor navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">

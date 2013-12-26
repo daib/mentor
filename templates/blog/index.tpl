@@ -9,6 +9,56 @@
         <div class="col-sm-2">
             <nav class="nav-sidebar">
                 <ul class="nav">
+                    <li>
+                        <div id="upload-img">
+                            <button id="select-img-btn" class="btn btn-default btn-xs" style="position:absolute; top:5% ; left: 65%;">Change</button>
+                            <form enctype="multipart/form-data" method="post" action={geturl controller='account' action='avatar'}>
+                                <input type="file" id="upload-avatar-input" style="display:none">
+                                <img id="avatar-pic" class="img-responsive img-border" src="/images/profile/anonymous-user-gravatar.png"/>
+                                <input id="save-img-btn" type="submit" name="submit" class="submit btn btn-default btn-xs" style="position:absolute; top:5% ; left: 40%;" value="Save"/>
+                            </form>
+                        </div>
+                        {literal}
+                        <script>
+                        $(document).ready(function(){
+                            $("#select-img-btn").hide();
+                            $("#save-img-btn").hide();
+                            var changed = false;
+                            $("#upload-img").hover(
+                                function() {
+                                    $("#select-img-btn").show();
+                                    if(changed)
+                                        $("#save-img-btn").show();
+                                }, 
+                                function() {
+                                    $("#select-img-btn").hide();
+                                    if(changed)
+                                        $("#save-img-btn").hide();
+                                });
+
+                            $("#select-img-btn").click(function () {
+                                $("#upload-avatar-input").click() 
+                            });
+
+                            function readURL(input) {
+                                if (input.files && input.files[0]) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        $('#avatar-pic').attr('src', e.target.result);
+                                    }
+                                    reader.readAsDataURL(input.files[0]);
+                                    changed = true;
+                                }
+                            }
+                            
+                            $("#upload-avatar-input").change(function(){
+                                readURL(this);
+                            });
+                        });
+                        </script>
+                        {/literal}
+                    </li>
+
                     <li><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                     <li class="active"><a href={geturl controller='blog'}{$blog_url}><i class="glyphicon glyphicon-briefcase"></i> Projects</a></li>
                     <li><a href={geturl controller='account' action='index'}><i class="glyphicon glyphicon-cog"></i> Setting</a></li>
