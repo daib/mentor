@@ -1,0 +1,19 @@
+<?php
+if (is_array($error) || strlen($error) > 0):
+    $hasError = true;
+else:
+    $hasError = false;
+endif;
+?>
+
+<div class="error"<?php if (!$hasError): echo "style=\"display:none\""; endif;?>>
+    <?php if (is_array($error)):?>
+        <ul>
+            <?php foreach ($error as $str):?>
+                <li><?php echo $this->escapeHtml($str);?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else:
+        echo $error;
+    endif;?>
+</div>
