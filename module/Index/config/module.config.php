@@ -11,7 +11,7 @@ return array(
             'index' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/index[/:action][/:id]',
+                    'route'    => '/index[/:action]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
@@ -27,10 +27,9 @@ return array(
 
     'view_manager' => array(
         'template_path_stack' => array(
-            'album' => __DIR__ . '/../view',
+            'index' => __DIR__ . '/../view',
         ),
         'template_map' => array(
-            'index/index/index' => __DIR__ . '/../view/index/index/index.phtml',
             'layout/header' => __DIR__ . '/../../../common/view/layout/header.phtml',            
             'layout/footer' => __DIR__ . '/../../../common/view/layout/footer.phtml',            
         ),

@@ -27,10 +27,9 @@ return array(
 
     'view_manager' => array(
         'template_path_stack' => array(
-            'album' => __DIR__ . '/../view',
+            'blog' => __DIR__ . '/../view',
         ),
         'template_map' => array(
-            'blog/blog/index' => __DIR__ . '/../view/blog/blog/index.phtml',
             'layout/header' => __DIR__ . '/../../../common/view/layout/header.phtml',            
             'layout/footer' => __DIR__ . '/../../../common/view/layout/footer.phtml',            
         ),

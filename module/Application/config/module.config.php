@@ -27,7 +27,7 @@ return array(
             'blog' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/blog/[/:action][/:id]',
+                    'route'    => '/blog/[/:action]',
                     'defaults' => array(
                         'controller' => 'Blog\Controller\Blog',
                         'action'     => 'index',
