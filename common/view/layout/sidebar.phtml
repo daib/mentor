@@ -1,0 +1,106 @@
+ <div class="col-sm-2">
+    <nav class="nav-sidebar">
+        <ul class="nav">
+            <li>
+                <div id="upload-img">
+                    <button id="select-img-btn" class="btn btn-default btn-xs" style="position:absolute; top:5% ; left: 65%;">Change</button>
+                    <form enctype="multipart/form-data" name="upload-form" id="upload-form" method="post" action="<?php echo $this->url('account', array('action' => 'avatar')) ?>">
+                        <input type="file" id="upload-avatar-input" name="upload-avatar-input" style="display:none">
+                        <img id="avatar-pic" name="avatar-pic" class="img-responsive img-border" src="/images/profile/anonymous-user-gravatar.png"/>
+                        <input id="save-img-btn" type="submit" name="submit" class="submit btn btn-default btn-xs" style="position:absolute; top:5% ; left: 40%;" value="Save"/>
+                    </form>
+                </div>
+                <script>
+                $(document).ready(function(){
+                    $("#select-img-btn").hide();
+                    $("#save-img-btn").hide();
+                    var changed = false;
+                    $("#upload-img").hover(
+                        function() {
+                            $("#select-img-btn").show();
+                            if(changed)
+                                $("#save-img-btn").show();
+                        }, 
+                        function() {
+                            $("#select-img-btn").hide();
+                            if(changed)
+                                $("#save-img-btn").hide();
+                        });
+
+                    $("#select-img-btn").click(function () {
+                        $("#upload-avatar-input").click() 
+                    });
+
+                    $("#upload-form").submit(function(e)
+                    {
+                        var formObj = $(this);
+                        var formURL = formObj.attr("action");
+                        var formData = new FormData(this);
+                        $.ajax({
+                            url: formURL,
+                            type: 'POST',
+                            data:  formData,
+                            mimeType:"multipart/form-data",
+                            contentType: false,
+                            cache: false,
+                            processData:false,
+                            success: function(data, textStatus, jqXHR) {},
+                            error: function(jqXHR, textStatus, errorThrown) {}          
+                        });
+                        e.preventDefault(); //Prevent Default action.
+                    });
+         
+
+                    function readURL(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $('#avatar-pic').attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                            changed = true;
+                        }
+                    }
+                    
+                    $("#upload-avatar-input").change(function(){
+                        readURL(this);
+                    });
+                });
+                </script>
+            </li>
+
+            <li <?php if($section === 'home'): echo "class=\"active\""; endif;?>><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            <li <?php if($section === 'project'): echo "class=\"active\""; endif;?>><a href=<?php echo $this->url('project')?>><i class="glyphicon glyphicon-briefcase"></i> Projects</a></li>
+            <li <?php if($section === 'blog'): echo "class=\"active\""; endif;?>><a href=<?php echo $this->url('blog', array('action' => 'index'))?>><i class="glyphicon glyphicon-book"></i> Blog</a></li>
+            <li <?php if($section === 'setttings'): echo "class=\"active\""; endif;?>><a href=<?php echo $this->url('account') ?>><i class="glyphicon glyphicon-cog"></i> Settings</a></li>
+            <li class="nav-divider"></li>
+            <?php if($authenticated): ?>
+                <li><a href="<?php echo $this->url('account', array('action' => 'logout'))?>"><i class="glyphicon glyphicon-off"></i> Sign out</a></li>
+            <?php else:?>
+                <li><a href="<?php echo $this->url('account', array('action' => 'login'))?>"><i class="glyphicon glyphicon-log-in"></i> Sign in</a></li>
+            <?php endif;?>
+            <?php if ($relation_status === 'friended'):?>
+                <li class="nav-divider"></li>
+                <button type="submit" uid=<?php echo $uid; ?> id="addfriend-btn" class="btn btn-blog-entry btn-default btn-sm"><i class="glyphicon glyphicon-user"></i> Friend</button>
+            <?php elseif($relation_status === 'requested'):?>
+                <li class="nav-divider"></li>
+                <button type="submit" uid=<?php echo $uid; ?> id="addfriend-btn" class="btn btn-blog-entry btn-default btn-sm"><i class="glyphicon glyphicon-user"></i> Friend requested</button>
+            <?php elseif($relation_status === 'nonexisted'): ?>
+                <li class="nav-divider"></li>
+                <button type="submit" uid=<?php echo $uid; ?> id="addfriend-btn" class="btn btn-blog-entry btn-default btn-sm"><i class="glyphicon glyphicon-user"></i> <span id="addfriend-btn-text">Add friend</span></button>
+
+                <script>
+                $(document).ready(function(){
+                    $("#addfriend-btn").click(function(){
+                    $.post("/account/friend", {"uid":$(this).attr("uid")})
+                        .done(function( data ) {
+                            $("#addfriend-btn-text").text('Friend requested');
+                        });
+                    });
+                });
+                </script>
+            <?php endif;?>
+        </ul>
+    </nav>
+</div>
+

@@ -125,6 +125,7 @@ class AccountController extends CustomControllerAction
                 $request->getFiles()->toArray()
             );
 
+            print_r($post);
             $form->setData($post);
             if ($form->isValid()) {
                 $data = $form->getData();

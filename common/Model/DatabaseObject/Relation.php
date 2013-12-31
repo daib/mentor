@@ -23,7 +23,9 @@
         }
 
         public function checkStatus($from_id, $to_id) {
-            if($this->load($from_id, 'from_user', $to_id, 'to_user')) {
+            if($from_id === $to_id)
+                return 'identical';
+            else if($this->load($from_id, 'from_user', $to_id, 'to_user')) {
                 if($this->_properties['status']['value'] == 'f') {
                     return 'friended';
                 } else {
