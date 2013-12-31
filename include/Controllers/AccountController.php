@@ -12,6 +12,67 @@
         {
             // nothing to do here, index.tpl will be displayed
         }
+
+        public function avatarAction()
+        {
+            $dest_dir = "uploads/";
+ 
+            /* Uploading Document File on Server */
+            $upload = new Zend_File_Transfer_Adapter_Http();
+            $upload->setDestination($dest_dir)
+                         ->addValidator('Count', false, 1)
+                         ->addValidator('Size', false, 1048576)
+                         ->addValidator('Extension', false, 'jpg,png,gif,pdf');
+            $files = $upload->getFileInfo();
+ 
+            // debug mode [start]
+            echo '<hr />
+                            <pre>';
+            print_r($files);
+            echo '  </pre>
+                        <hr />';
+            // debug mode [end]
+ 
+            try
+            {
+                // upload received file(s)
+                $upload->receive();
+            }
+            catch (Zend_File_Transfer_Exception $e)
+            {
+                $e->getMessage();
+                exit;
+            }
+ 
+            $mime_type = $upload->getMimeType('doc_path');
+            $fname = $upload->getFileName('doc_path');
+            $size = $upload->getFileSize('doc_path');
+            $file_ext = $this->getFileExtension($fname);
+            $new_file = $dest_dir.md5(mktime()).'.'.$file_ext;
+ 
+            $filterFileRename = new Zend_Filter_File_Rename(
+                array(
+                    'target' => $new_file, 'overwrite' => true
+            ));
+ 
+            $filterFileRename->filter($fname);
+ 
+            if (file_exists($new_file))
+            {
+                $request = $this->getRequest();
+                $caption = $request->getParam('caption');
+ 
+                $html = 'Orig Filename: '.$fname.'<br />';
+                $html .= 'New Filename: '.$new_file.'<br />';
+                $html .= 'File Size: '.$size.'<br />';
+                $html .= 'Mime Type: '.$mime_type.'<br />';
+                $html .= 'Caption: '.$caption.'<br />';
+            }
+            else
+            {
+                $html = 'Unable to upload the file!';
+            }
+        }
         
         public function friendAction()
         {

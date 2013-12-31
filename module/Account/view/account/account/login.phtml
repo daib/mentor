@@ -1,0 +1,39 @@
+<?php echo $this->partial('layout/header', array('authenticated' => $authenticated, 'section' => 'login')); ?>
+<link href="/css/signup.css" rel="stylesheet">
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h5 class="text-center"> Login</h5>
+                    <form class="form form-signup" role="form" method="post" action="<?php echo $this->url('account', array('action' => 'login'));?>">
+                        <input type="hidden" name="redirect" value="<?php echo $this->escapeHtml($redirect);?>"/>
+                        <div class="form-group" id="form_username_container">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                <input type="text" class="form-control" id="form_username" placeholder="Username" name="username" value="<?php if(isset($username)): echo $username; endif;?>" />
+                                <?php echo $this->partial('lib/error', array('error' => $error['username'])); ?>
+                            </div>
+                        </div>
+                        <div class="form-group" id="form_password_container">
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span> </span>
+                                <input type="password" class="form-control" placeholder="Password" id="form_password" name="password" value="" />
+                                <?php echo $this->partial('lib/error', array('error' => $error['password'])); ?>
+                            </div>
+                        </div>
+                        <input type="submit" value="SUBMIT" class="btn btn-sm btn-primary btn-block" role="button"></input>
+
+                        <div>
+                            <a href="<?php echo $this->url('account', array('action' => 'fetchpassword')); ?>">Forgotten your password?</a>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+</form>

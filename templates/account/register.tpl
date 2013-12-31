@@ -7,8 +7,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5 class="text-center">
-                        SIGN UP</h5>
+                    <h5 class="text-center"> SIGN UP</h5>
                     <form class="form form-signup" role="form" method="post" action="{geturl action='register'}" id="registration-form">
                         <div class="error"{if !$fp->hasError()} style="display: none"{/if}>
                             An error has occurred in the form below. Please check

@@ -62,8 +62,6 @@
 
                 $this->view->assign('items', $items);
             }
-
-
         }
     }
 ?>

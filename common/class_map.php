@@ -5,6 +5,7 @@ return array(
     'Model\DatabaseObject\DatabaseObjectBlogList' => __DIR__ . '/Model/DatabaseObject/BlogList.php', 
     'Model\DatabaseObject\DatabaseObjectRelation' => __DIR__ . '/Model/DatabaseObject/Relation.php', 
     'Model\DatabaseObject\DatabaseObjectBlogPost' => __DIR__ . '/Model/DatabaseObject/BlogPost.php', 
+    'Model\DatabaseObject\DatabaseObjectUser' => __DIR__ . '/Model/DatabaseObject/User.php', 
     'Model\Profile\ProfileBlogPost' => __DIR__ . '/Model/Profile/BlogPost.php', 
     'Model\Profile\ProfileUser' => __DIR__ . '/Model/Profile/User.php', 
     'Model\Profile' => __DIR__ . '/Model/Profile.php', 

@@ -10,7 +10,7 @@
             <nav class="nav-sidebar">
                 <ul class="nav">
                     <li class="active"><a href="/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-                    <li><a href={geturl controller='blog'}{$blog_url}><i class="glyphicon glyphicon-briefcase"></i> Projects</a></li>
+                    <li><a href={geturl controller='blog' action='index'}{$blog_url}><i class="glyphicon glyphicon-briefcase"></i> Projects</a></li>
                     <li><a href={geturl controller='account' action='index'}><i class="glyphicon glyphicon-cog"></i> Setting</a></li>
                     <li class="nav-divider"></li>
                     {if $authenticated}
