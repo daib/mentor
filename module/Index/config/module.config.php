@@ -30,6 +30,7 @@ return array(
             'index' => __DIR__ . '/../view',
         ),
         'template_map' => array(
+            'layout/sidebar' => __DIR__ . '/../../../common/view/layout/sidebar.phtml',            
             'layout/header' => __DIR__ . '/../../../common/view/layout/header.phtml',            
             'layout/footer' => __DIR__ . '/../../../common/view/layout/footer.phtml',            
         ),

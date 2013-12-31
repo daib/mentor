@@ -35,6 +35,17 @@ return array(
                 ),
             ),
 
+            'project' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/project/[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Project\Controller\Project',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+
 
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
