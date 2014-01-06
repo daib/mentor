@@ -2,6 +2,7 @@
     namespace Model;
 
     use Zend\Db\Adapter\Adapter;
+    use Zend\Db\Sql\Sql;
 
     abstract class Profile
     {
@@ -31,9 +32,11 @@
                              $this->_valueField,
                              $this->_table);
             if (count($this->_filters) > 0) {
+
+                $platform = $this->_db->getPlatform();
                 $filters = array();
                 foreach ($this->_filters as $k => $v)
-                    $filters[] = $k . ' = ' . $v;
+                    $filters[] = $k . ' = ' . ($platform->quoteValue($v));
 
                 $query .= sprintf(' where %s', join(' and ', $filters));
             }
@@ -49,7 +52,7 @@
         public function save($useTransactions = true)
         {
             if ($useTransactions)
-                $this->_db->beginTransaction();
+                $this->_db->getDriver()->getConnection()->beginTransaction();
 
             foreach ($this->_properties as $k => $v) {
                 switch ($v['action']) {
@@ -65,15 +68,50 @@
                         $values = $this->_filters;
                         $values[$this->_keyField] = $k;
                         $values[$this->_valueField] = $v['value'];
-                        $this->_db->insert($this->_table, $values);
+
+                        $sql = new Sql($this->_db);
+                        $insert = $sql->insert(); 
+                        $insert->into($this->_table);
+                        $insert->values($values); 
+                        $insert->columns(array_keys($values));
+                        $statement = $sql->prepareStatementForSqlObject($insert);
+
+                        $result = 0;
+                        try {
+                            $result = $statement->execute();        // works fine
+                        } catch (\Exception $e) {
+                            die('Error: ' . $e->getMessage());
+                        }
+                        if (empty($result)) {                       // not sure if this is applicable??
+                            die('Zero rows affected');
+                        }
+
                         break;
 
                     case self::ACTION_UPDATE:
+                        $platform = $this->_db->getPlatform();
                         $where = array();
                         foreach ($this->_filters as $_k => $_v)
-                            $where[] = $this->_db->quoteInto($_k . ' = ?', $_v);
-                        $where[] = $this->_db->quoteInto($this->_keyField . ' = ?', $k);
-                        $this->_db->update($this->_table, array($this->_valueField => $v['value']), $where);
+                            $where[] = $_k . ' = ' . ($platform->quoteValue($_v));
+                        $where[] = $this->_keyField . ' = '.($platform->quoteValue($k));
+
+                        $sql = new Sql($this->_db);
+                        $update = $sql->update();
+                        $update->table($this->_table);
+                        $update->set(array($this->_valueField => $v['value']));
+                        $update->where($where);
+                        $statement = $sql->prepareStatementForSqlObject($update);
+
+                        $result = 0;
+                        try {
+                            $result = $statement->execute();        // works fine
+                        } catch (\Exception $e) {
+                            die('Error: ' . $e->getMessage());
+                        }
+                        if (empty($result)) {                       // not sure if this is applicable??
+                            die('Zero rows affected');
+                        }
+
                         break;
 
                     case self::ACTION_NONE:
@@ -89,7 +127,7 @@
             }
 
             if ($useTransactions)
-                $this->_db->commit();
+                $this->_db->getDriver()->getConnection()->commit();
 
             return true;
         }

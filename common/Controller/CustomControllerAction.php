@@ -15,6 +15,8 @@
         {
             $this->_auth = new AuthenticationService();
             $this->_auth->setStorage(new SessionStorage('mentorNetwork'));
+
+            $this->_identity = $this->_auth->getIdentity();
             $ini_reader = new Ini();
             $config   = $ini_reader->fromFile(__DIR__ . '/../../settings.ini');
 

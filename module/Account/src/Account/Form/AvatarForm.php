@@ -31,8 +31,13 @@ class AvatarForm extends Form
         // File Input
         $fileInput = new InputFilter\FileInput('upload-avatar-input');
         $fileInput->setRequired(true);
-        $filter = new \Zend\Filter\File\RenameUpload('/Users/daib/prog/web/mentor/data/uploaded-files/');
-        $filter->setUseUploadName(true);
+        $filter = new \Zend\Filter\File\RenameUpload(array(
+            'target' => '/Users/daib/prog/web/mentor/htdocs/images/profile/', 
+            //'overwrite' => true,
+            'use_upload_name' => true,
+            'randomize' => true,
+            ));
+        //$filter->setUseUploadName(true);
         $fileInput->getFilterChain()->attach($filter);
         $inputFilter->add($fileInput);
 

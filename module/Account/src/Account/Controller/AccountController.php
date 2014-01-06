@@ -9,6 +9,8 @@ use Model\DatabaseObject\DatabaseObjectUser as User;
 
 use Account\Form\AvatarForm;
 
+use Model\Profile\ProfileUser;
+
 class AccountController extends CustomControllerAction 
 {
     public function __construct()
@@ -20,11 +22,14 @@ class AccountController extends CustomControllerAction
     {
         $uid = (int) $this->getRequest()->getQuery('uid');
 
+        $authenticated = false;
+
         if($this->_auth->hasIdentity()) {   //logged in
+            $authenticated = true;
         }
 
         return new ViewModel(array(
-            'authenticated' => false,
+            'authenticated' => $authenticated,
             'section' => 'home',
         ));
     }
@@ -115,25 +120,40 @@ class AccountController extends CustomControllerAction
 
     public function avatarAction()
     {
-        $form = new AvatarForm('upload-form');
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            // Make certain to merge the files info!
-            $post = array_merge_recursive(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            );
+        if($this->_auth->hasIdentity()) {   //logged in
 
-            print_r($post);
-            $form->setData($post);
-            if ($form->isValid()) {
-                $data = $form->getData();
-                // Form is valid, save the form!
-                return $this->redirect()->toRoute('upload-form/success');
-            }
+            $request = $this->getRequest();
+            if ($request->isPost()) {
+                // Make certain to merge the files info!
+                $post = array_merge_recursive(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+                );
+
+                $form = new AvatarForm('upload-form');
+                $form->setData($post);
+                if ($form->isValid()) {
+                    $data = $form->getData();
+                    $user_profile = new ProfileUser($this->_db);
+                    $user_profile->setUserId($this->_identity->user_id);
+                    $user_profile->load();
+                    $img = basename($data['upload-avatar-input']['tmp_name']);
+                    $user_profile->__set('profile_img', $img);
+                    $user_profile->save();
+                    // Form is valid, save the form!
+                    echo '/images/profile/' . $img;
+                }
+            } else if($request->isGet()) {
+                $user_profile = new ProfileUser($this->_db);
+                $user_profile->setUserId($this->_identity->user_id);
+                $user_profile->load();
+                $img = $user_profile->__get('profile_img');
+                if($img == null)
+                    $img = 'anonymous-user-gravatar.png';
+                echo '/images/profile/' . $img;
+            }else
+                echo ':error';
         }
-
-        return array('form' => $form);
     }
 }

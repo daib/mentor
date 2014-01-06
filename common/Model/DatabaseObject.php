@@ -49,7 +49,7 @@
                              join(', ', $this->getSelectFields()),
                              $this->_table,
                              $field,
-                             $id);
+                             $this->_db->getPlatform()->quoteValue($id));
 
             return $this->_load($query);
         }
@@ -157,7 +157,6 @@
                     $update->where($this->getWhereMap());
                     $statement = $sql->prepareStatementForSqlObject($update);
 
-                    //$this->_db->update($this->_table, $row, $this->getWhereClause());
                     $result = 0;
                     try {
                         $result = $statement->execute();        // works fine
@@ -175,9 +174,6 @@
                     $insert->values($row); 
                     $insert->columns(array_keys($row));
                     $statement = $sql->prepareStatementForSqlObject($insert);
-
-                    //$this->_db->insert($this->_table, $row);
-                    //$this->_id = $this->_db->lastInsertId($this->_table, $this->_idField);
 
                     $result = 0;
                     try {

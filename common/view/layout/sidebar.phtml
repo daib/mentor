@@ -6,7 +6,7 @@
                     <button id="select-img-btn" class="btn btn-default btn-xs" style="position:absolute; top:5% ; left: 65%;">Change</button>
                     <form enctype="multipart/form-data" name="upload-form" id="upload-form" method="post" action="<?php echo $this->url('account', array('action' => 'avatar')) ?>">
                         <input type="file" id="upload-avatar-input" name="upload-avatar-input" style="display:none">
-                        <img id="avatar-pic" name="avatar-pic" class="img-responsive img-border" src="/images/profile/anonymous-user-gravatar.png"/>
+                        <img id="avatar-pic" name="avatar-pic" class="img-responsive img-border" src=""/>
                         <input id="save-img-btn" type="submit" name="submit" class="submit btn btn-default btn-xs" style="position:absolute; top:5% ; left: 40%;" value="Save"/>
                     </form>
                 </div>
@@ -14,6 +14,12 @@
                 $(document).ready(function(){
                     $("#select-img-btn").hide();
                     $("#save-img-btn").hide();
+
+                    $.get("<?php echo $this->url('account', array('action' => 'avatar')); ?>")
+                        .done(function( data ) {
+                            $('#avatar-pic').attr('src', data);
+                        });
+
                     var changed = false;
                     $("#upload-img").hover(
                         function() {
@@ -44,7 +50,13 @@
                             contentType: false,
                             cache: false,
                             processData:false,
-                            success: function(data, textStatus, jqXHR) {},
+                            success: function(response) {
+                                if(response !== ':error') {
+                                    $('#avatar-pic').attr('src', response);
+                                    $("#save-img-btn").hide();
+                                    changed = false;
+                                }
+                            },
                             error: function(jqXHR, textStatus, errorThrown) {}          
                         });
                         e.preventDefault(); //Prevent Default action.
